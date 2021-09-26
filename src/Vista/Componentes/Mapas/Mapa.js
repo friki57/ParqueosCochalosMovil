@@ -21,7 +21,7 @@ class Mapa extends Component
     this.actualizar = this.actualizar.bind(this);
     setTimeout(()=>
     {
-      this.socket = SocketIOClient('http://104.129.131.142:4000', { transports: ['websocket'], jsonp: false });
+      this.socket = SocketIOClient('http://138.128.243.212:4000', { transports: ['websocket'], jsonp: false });
       this.socket.connect();
       this.socket.on('calles', (res)=>
       {
@@ -43,7 +43,7 @@ class Mapa extends Component
         this.setState(
           {MarcadorUbicacion : (<Marcador ubicacion = {this.state.ubicacion} texto = "Usted está acá"></Marcador>)}
         );
-        fetch("http://104.129.131.142:4000/MapasMovil")
+        fetch("http://138.128.243.212:4000/MapasMovil")
           .then(res => res.json())
           .then(data => {
             //console.log(data);
@@ -75,15 +75,29 @@ class Mapa extends Component
       {
         a.lon = (a.geojson[0].lon + a.geojson[1].lon)/2;
         a.lat = (a.geojson[0].lat + a.geojson[1].lat)/2;
+        if(a.placas!=undefined)
+        a.placas = a.placas.map(b=>{
+          b.tiempoRestante = Math.floor((new Date(b.hora) - Date.now() + b.tiempo * 60 * 1000) / (1000));
+          b.tiempopl = ((b.tiempoRestante>60)?Math.floor((b.tiempoRestante/60).toString()):"menos de 1");
+          return b
+        })
         return a;
       }
     )
+    console.log("----------------------------------")
+    console.log(data)
+    console.log("----------------------------------")
     var marcadores = data.map((a,i)=>
       {
         if(a.espacios!=undefined)
         {
+          var placas = "";
+          if(a.placas!=undefined)
+          a.placas.map(b=>{
+            placas = placas + b.placa + " : " + b.tiempopl + " minutos restantes\n"
+          })
           return (
-            <Marcador ubicacion = {[a.lon, a.lat]} texto={(a.calle+" entre "+a.c1+" y "+a.c2+"\nEspacios disponibles: "+(a.espaciosMaximo-a.espacios))} key = {i}></Marcador>
+            <Marcador ubicacion = {[a.lon, a.lat]} texto={(a.calle+" entre "+a.c1+" y "+a.c2+"\nEspacios disponibles: "+(a.espaciosMaximo-a.espacios) + "\n"+placas)} key = {i}></Marcador>
           )
         }
       })

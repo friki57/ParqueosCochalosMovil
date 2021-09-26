@@ -1,4 +1,4 @@
-const dominio = "http://104.129.131.142:4000"
+const dominio = "http://138.128.243.212:4000"
 var ret = (ruta, callback, datos = {}, method = 'GET')=>{
   let data = {
     method: method,

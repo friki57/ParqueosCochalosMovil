@@ -26,10 +26,6 @@ export default class MiCuenta extends Component {
           <Text style = {{width: 250, fontSize: 20, margin: 10}}>
             Saldo actual: {global.usuario.saldo}</Text>
 
-          <ButtonLogin
-            onPress={()=>{console.log("Modificar Tiempos")}}
-            titleButton={"Cerrar Sesión"}>
-          </ButtonLogin>
         </View>
       )
     }
@@ -46,7 +42,7 @@ export default class MiCuenta extends Component {
     return (
       <>
         {this.cuenta()}
-      </>  
+      </>
     );
 
   }
