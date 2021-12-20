@@ -5,6 +5,15 @@ import MapboxGL from "@react-native-mapbox-gl/maps";
 import Geolocation from '@react-native-community/geolocation';
 import SocketIOClient from 'socket.io-client/dist/socket.io.js'
 
+const dominio = "http://83.229.39.60:4000"
+
+const colores = {
+  rojo: "#f46",
+  verde: "#6f4",
+  azul: "#36f",
+  amarillo: "#000"
+}
+
 MapboxGL.setAccessToken("pk.eyJ1IjoiZnJpa2k1NyIsImEiOiJjanZxOGtxMjgwaDhxNDRvOHl5NDVvZnQyIn0._cULjNb2IP5SLSBSm7Higw");
 MapboxGL.setConnected(true);
 
@@ -21,7 +30,7 @@ class Mapa extends Component
     this.actualizar = this.actualizar.bind(this);
     setTimeout(()=>
     {
-      this.socket = SocketIOClient('http://138.128.243.212:4000', { transports: ['websocket'], jsonp: false });
+      this.socket = SocketIOClient(dominio, { transports: ['websocket'], jsonp: false });
       this.socket.connect();
       this.socket.on('calles', (res)=>
       {
@@ -41,17 +50,17 @@ class Mapa extends Component
           this.setState({ubicacion: this.state.ubicacionActual})
         }
         this.setState(
-          {MarcadorUbicacion : (<Marcador ubicacion = {this.state.ubicacion} texto = "Usted está acá"></Marcador>)}
+          {MarcadorUbicacion : (<Marcador color={colores.amarillo} id="aca" ubicacion = {this.state.ubicacion} texto = "Usted está acá"></Marcador>)}
         );
-        fetch("http://138.128.243.212:4000/MapasMovil")
+        fetch(dominio + "/MapasMovil")
           .then(res => res.json())
           .then(data => {
             //console.log(data);
             this.actualizar(data);
           });
       },
-      error => Alert.alert("Imposible obtener la localización.\nFavor de conectarse a internet."),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
+      error => Alert.alert("Imposible obtener la localización.\nFavor de conectarse a internets."),
+      { enableHighAccuracy: true, timeout: 20000 }
     );
   }
   actualizar(data)
@@ -96,8 +105,21 @@ class Mapa extends Component
           a.placas.map(b=>{
             placas = placas + b.placa + " : " + b.tiempopl + " minutos restantes\n"
           })
+          console.log("AAAA",a);
+          var colorp = colores.rojo
+          if (a.pago==false) {
+            colorp==colores.rojo;
+          }
+          else {
+            if(a.espacios==a.espaciosMaximo)
+              colorp=colores.azul;
+            else {
+              colorp=colores.verde;
+            }
+          }
+
           return (
-            <Marcador ubicacion = {[a.lon, a.lat]} texto={(a.calle+" entre "+a.c1+" y "+a.c2+"\nEspacios disponibles: "+(a.espaciosMaximo-a.espacios) + "\n"+placas)} key = {i}></Marcador>
+            <Marcador id={i.toString()} color={colorp} ubicacion = {[a.lon, a.lat]} texto={(a.calle+" entre "+a.c1+" y "+a.c2)} key = {i.toString()}></Marcador>
           )
         }
       })
@@ -126,7 +148,6 @@ class Mapa extends Component
         {this.state.MarcadorUbicacion}
         {this.state.Calles}
       </MapboxGL.MapView>
-      <Text>{this.state.ubicacion}</Text>
       </>
     )
   }

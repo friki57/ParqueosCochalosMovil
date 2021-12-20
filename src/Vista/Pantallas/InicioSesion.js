@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ToastAndroid } from 'react-native';
+import { StyleSheet, View, ToastAndroid, Image } from 'react-native';
 
 import ButtonLogin from '../Componentes/Formulario/Button';
 import TextInputLogin from '../Componentes/Formulario/TextInput';
@@ -56,7 +56,10 @@ export default class LoginScreen extends Component {
       console.disableYellowBox = true;
         return (
             <View style={stylesLoginScreen.container}>
-                <LogoLogin style={stylesLoginScreen.logo} imagen = {Images.Mapas}/>
+                <View style={styles.container}>
+                  <Image source={Images.marca} style={styles.image}></Image>
+                </View>
+
                 <View style={stylesLoginScreen.form}>
                     <TextInputLogin
                         onChangeText={this._onChangeTextUsername}
@@ -99,5 +102,25 @@ const stylesLoginScreen = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         width: '80%',
+    },
+});
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image:{
+      flex: 1,
+      width: 300,
+      height: 300,
+      resizeMode: 'contain'
+    },
+    text:{
+        color:'white',
+        fontWeight:'bold',
+        backgroundColor:'transparent',
+        marginTop:20,
     },
 });

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View,  Text, Alert, StyleSheet } from 'react-native';
+import { View,  Text, Alert, StyleSheet, ImageBackground } from 'react-native';
 
 import ButtonLogin from '../Componentes/Formulario/Button';
 import Logo from '../Componentes/Formulario/Logo';
@@ -16,17 +16,20 @@ export default class MiCuenta extends Component {
     console.log(global.usuario)
     if(global.usuario!=undefined){
       return(
+          <ImageBackground source={Images.textura2} style={{width: '100%', height: '100%'}} imageStyle={{resizeMode: 'repeat'}}>
+            <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
+              <Logo style={stylesLoginScreen.logo} imagen = {Images.IconoUsuario}/>
+              <View style={stylesLoginScreen.form}>
+                <Text style = {{width: 250, fontSize: 20, margin: 10}}>
+                Nombre: {global.usuario.nombre + " " + global.usuario.apellido}</Text>
+                <Text style = {{width: 250, fontSize: 20, margin: 10}}>
+                Matrícula: {global.usuario.placa}</Text>
+                <Text style = {{width: 250, fontSize: 20, margin: 10}}>
+                Saldo actual: {global.usuario.saldo}</Text>
+              </View>
 
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Logo style={stylesLoginScreen.logo} imagen = {Images.IconoUsuario}/>
-          <Text style = {{width: 250, fontSize: 20, margin: 10}}>
-            Nombre: {global.usuario.nombre + " " + global.usuario.apellido}</Text>
-          <Text style = {{width: 250, fontSize: 20, margin: 10}}>
-            Matrícula: {global.usuario.placa}</Text>
-          <Text style = {{width: 250, fontSize: 20, margin: 10}}>
-            Saldo actual: {global.usuario.saldo}</Text>
-
-        </View>
+            </View>
+          </ImageBackground>
       )
     }
     else{
@@ -63,7 +66,9 @@ const stylesLoginScreen = StyleSheet.create({
     },
     form: {
         flex: 1,
-        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         width: '80%',
+        backgroundColor:"#aaaa"
     },
 });

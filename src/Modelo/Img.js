@@ -9,5 +9,8 @@ export default {
   Marca: require("./../../Assets/Img/marca.svg"),
   IconoUsuario: require("./../../Assets/Img/IconoUsuario.png"),
   IconoHistorial: require("./../../Assets/Img/IconoHistoria.png"),
-  IconoTelefono: require("./../../Assets/Img/IconoTelefono.jpg")
+  IconoTelefono: require("./../../Assets/Img/IconoTelefono.jpg"),
+  textura1: require("./../../Assets/Img/textura1.jpg"),
+  textura2: require("./../../Assets/Img/textura2.jpg"),
+  marca: require("./../../Assets/Img/marca.png")
 };
