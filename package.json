@@ -29,7 +29,7 @@
     "FormData": "^0.10.1",
     "install": "^0.13.0",
     "native-base": "^2.13.12",
-    "npm": "^6.14.3",
+    "npm": "^6.14.6",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
